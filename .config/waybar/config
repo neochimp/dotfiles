@@ -1,0 +1,129 @@
+{
+  "position": "top",
+    "margin-top" : 10,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "height" : 16,
+    "modules-left": [
+      "hyprland/workspaces",
+      "custom/pacman",
+    ],
+    "modules-center": [
+      "hyprland/window"
+    ],
+    "modules-right": [
+    "pulseaudio",
+    "network",
+    "temperature",
+    "battery",
+    "custom/shutdown",
+    "clock",
+    ],
+    "hyprland/window": {
+      "format": "{}",
+      "max-length": 35,
+      "rewrite": {
+        "": "Hyprland"
+      },
+      "separate-outputs": true,
+    },
+    "hyprland/workspaces": {
+      "format": "{icon}",
+	      	"on-click": "activate",
+		"format-icons": {
+			"1": " ",
+			"2": " ",
+			"3": " ",
+			"4": " ",
+			"5": " ",
+			"urgent": "",
+			"active": " ",
+			"default": " "
+		},
+		"persistent-workspaces": {
+			"1": [],
+			"2": [],
+			"3": []
+		},
+	"sort-by-number": true
+    },
+    "clock": {
+      "timezone": "America/Los_Angeles",
+      "format": "{:%I:%M %a}",
+      "tooltip-format": "<span font='Mononoki Nerd Font Mono Bold 13'><big><tt>{calendar}</tt></big></span>",
+      "calendar": {
+        "format": {
+           "months":     "<span color='#ffead3'><b>{}</b></span>",
+           "days":       "<span color='#ffead3'><b>{}</b></span>",
+           "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+           "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+           "today":      "<span color='#ff6699'><b>{}</b></span>"
+        }
+      }
+      },
+    "cpu": {
+      "format": "  {usage}%",
+      "tooltip": false
+    },
+    "memory": {
+      "format": "{}%  "
+    },
+    "temperature": {
+      "critical-threshold": 80,
+      "format": "<span size='x-large' rise='-2500'>{icon}</span> {temperatureC}°C",
+      "format-icons": ["", "", ""]
+    },
+    "battery": {
+      "states": {
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "<span size='x-large' rise='-2500'>{icon}</span> {capacity}%",
+      "format-full": "<span size='x-large' rise='-2500'>{icon}</span>  {capacity}%",
+      "format-charging": "<span size='x-large' rise='-2500'>󰂄</span> {capacity}%",
+      "format-plugged": "<span size='x-large' rise='-2500'>󱟢</span> {capacity}%",
+      "format-alt": "<span size='x-large' rise='-2500'>{icon}</span> {time}",
+      "format-icons": ["󰂎", "󰁻", "󰁾", "󰂀", "󰁹"]
+    },
+    "network": {
+      "format-wifi": "<span size='xx-large' rise='-2500'>󰖩</span> {signalStrength}%",
+      "format-ethernet": "{cidr} ",
+      "tooltip-format": "{ifname} via {gwaddr} ",
+      "format-linked": "{ifname} (No IP) ",
+      "format-disconnected": " ⚠ ",
+      "on-click": "kitty --class nmwui nmtui"
+    },
+    "pulseaudio": {
+      "format": "<span size='x-large' rise='-2500'>{icon}</span> {volume}%",
+      "format-bluetooth": "{volume}% <span size='x-large' rise='-2500'>{icon}</span> {format_source}",
+      "format-bluetooth-muted": " <span size='x-large' rise='-2500'>{icon}</span> {format_source}",
+      "format-muted": " {format_source}",
+      "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["󰕿", "󰖀", "󰕾"]
+      },
+      "on-click": "blueman-manager"
+    },
+    
+    "custom/pacman": {
+      "format": "{}<span size='x-large' rise='-2000'>{icon}</span>",
+      "return-type": "json",
+      "format-icons": {
+        "pending-updates": "",
+        "updated": ""
+      },
+      "exec-if": "which waybar-updates",
+      "exec": "waybar-updates"
+    },
+    "custom/shutdown": {
+		  "format": "<span size='x-large' rise='-2500'>⏻</span>",
+		  "on-click": "wlogout -b 2",
+		  "tooltip": false
+	  },
+}

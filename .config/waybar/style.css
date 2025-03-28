@@ -1,0 +1,185 @@
+/*@import "macchiato.css";*/
+@import "/home/soup/.cache/wal/colors-waybar.css";
+* {
+  border: none;
+  border-radius: 8;
+  font-family: "Mononoki Nerd Font Mono";
+  font-size: 22px;
+  color: @foreground;
+  background-color: rgba(0, 0, 0, 0);
+  font-weight: bold;
+}
+
+tooltip{
+  font-family: "Mononoki Nerd Font Mono";
+  background: rgba(38, 38, 38, 0.8);
+}
+
+window#waybar {
+  background: transparent;
+  margin-top: 20px;
+}
+
+button {
+  /* Use box-shadow instead of border so the text isn't offset */
+  box-shadow: inset 0 -3px transparent;
+  /* Avoid rounded borders under each button name */
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+  background: inherit;
+  box-shadow: inset 0 -3px #ffffff;
+}
+
+/* you can set a style on hover for any module like this */
+/*
+#pulseaudio:hover {
+  background: @mauve;
+}
+
+#network:hover {
+  background: @mauve;
+}
+
+#clock:hover {
+  background: @mauve;
+}
+*/
+
+#workspaces {
+  margin: 0px 5px 0px 0px;
+  padding: 0px 5px 0px;
+  background-color: @color2;
+  border-radius: 8px;
+  border: solid;
+  border-width: 3px;
+  border-color: @foreground;
+}
+
+#workspaces button {
+  min-height: 1px;
+  padding: 2px 8px;
+  margin: 5px 2px;
+  border-radius: 20px;
+  background-color: @background;
+  transition: padding 0.4s;
+  box-shadow: none;
+}
+
+#workspaces button.active {
+  background-color: @foreground;
+  padding: 2px 15px;
+  transition: padding 0.4s;
+}
+#workspaces button:hover {
+  background: @foreground;
+  border: none;
+}
+
+#mode {
+  background-color: #64727d;
+  box-shadow: inset 0 -3px #ffffff;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#network,
+#pulseaudio,
+#custom-shutdown{
+  padding: 0 10px;
+  margin-right: 10px;
+  background: @background;
+}
+#clock {
+  background-color: @color2;
+  border-color: @foreground;
+  border: solid;
+  border-width: 3px;
+}
+#window {
+  color: @text;
+}
+
+#custom-pacman {
+  background-color: @background;
+  margin: 0px 5px 0px;
+  padding: 0px 10px 0px 8px;
+  background-color: @color2;
+  border: solid;
+  border-width: 3px;
+  border-color: @foreground;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+#custom-pacman.pending-updates {
+  animation-name: blink-update;
+  animation-duration: 3s;
+}
+
+.modules-right,
+.modules-left,
+.modules-center {
+  color: black;
+  margin-top: 5px;
+}
+.modules-right {
+  padding: 0 0px;
+  margin-left: 10px;
+}
+
+.modules-left {
+  padding: 0 10px;
+}
+
+.modules-center {
+  padding: 0 10px;
+}
+
+#battery.warning {
+  color: @color2;
+}
+
+#battery.critical {
+  color: red;
+}
+#battery.charging,
+#battery.plugged {
+}
+
+@keyframes blink-update {
+  to {
+    background-color: @background;
+  }
+}
+
+@keyframes blink {
+  to {
+    color: #000000;
+  }
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging) {
+  background-color: #f53c3c;
+  color: #ffffff;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+label:focus {
+  background-color: #000000;
+}
+
+#pulseaudio.muted {
+  color: #7d7c7b;
+}
+
+
