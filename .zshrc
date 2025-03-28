@@ -17,7 +17,7 @@ export PATH="$PATH:/home/soup/bin/scripts"
 export TERMINAL=kitty
 #scripts
 wallpaper() {
-  ~/.config/scripts/walEngine.sh "$1"
+  ~/.zsh/scripts/walEngine.sh "$1"
   #kill -9 $PPID
 }
 
