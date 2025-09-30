@@ -1,6 +1,7 @@
 {
   "extras": [
     "lazyvim.plugins.extras.lang.clangd",
+    "lazyvim.plugins.extras.lang.omnisharp",
     "lazyvim.plugins.extras.lang.rust"
   ],
   "install_version": 7,

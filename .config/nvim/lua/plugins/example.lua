@@ -9,41 +9,41 @@ if true then return {} end
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
 return {
-  -- add gruvbox
-  { "ellisonleao/gruvbox.nvim" },
+	-- add gruvbox
+	{ "ellisonleao/gruvbox.nvim" },
 
-  -- Configure LazyVim to load gruvbox
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
-  },
+	-- Configure LazyVim to load gruvbox
+	{
+		"LazyVim/LazyVim",
+		opts = {
+			colorscheme = "gruvbox",
+		},
+	},
 
-  -- change trouble config
-  {
-    "folke/trouble.nvim",
-    -- opts will be merged with the parent spec
-    opts = { use_diagnostic_signs = true },
-  },
+	-- change trouble config
+	{
+		"folke/trouble.nvim",
+		-- opts will be merged with the parent spec
+		opts = { use_diagnostic_signs = true },
+	},
 
-  -- disable trouble
-  { "folke/trouble.nvim", enabled = false },
+	-- disable trouble
+	{ "folke/trouble.nvim", enabled = false },
 
-  -- override nvim-cmp and add cmp-emoji
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    ---@param opts cmp.ConfigSchema
-    opts = function(_, opts)
-      table.insert(opts.sources, { name = "emoji" })
-    end,
-  },
+	-- override nvim-cmp and add cmp-emoji
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = { "hrsh7th/cmp-emoji" },
+		---@param opts cmp.ConfigSchema
+		opts = function(_, opts)
+			table.insert(opts.sources, { name = "emoji" })
+		end,
+	},
 
-  -- change some telescope options and a keymap to browse plugin files
-  {
-    "nvim-telescope/telescope.nvim",
-    keys = {
+	-- change some telescope options and a keymap to browse plugin files
+	{
+		"nvim-telescope/telescope.nvim",
+		keys = {
       -- add a keymap to browse plugin files
       -- stylua: ignore
       {
@@ -51,162 +51,224 @@ return {
         function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
         desc = "Find Plugin File",
       },
-    },
-    -- change some options
-    opts = {
-      defaults = {
-        layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
-        sorting_strategy = "ascending",
-        winblend = 0,
-      },
-    },
-  },
+		},
+		-- change some options
+		opts = {
+			defaults = {
+				layout_strategy = "horizontal",
+				layout_config = { prompt_position = "top" },
+				sorting_strategy = "ascending",
+				winblend = 0,
+			},
+		},
+	},
 
-  -- add pyright to lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- pyright will be automatically installed with mason and loaded with lspconfig
-        pyright = {},
-      },
-    },
-  },
+	-- add pyright to lspconfig
+	{
+		"neovim/nvim-lspconfig",
+		---@class PluginLspOpts
+		opts = {
+			---@type lspconfig.options
+			servers = {
+				-- pyright will be automatically installed with mason and loaded with lspconfig
+				pyright = {},
+			},
+		},
+	},
 
-  -- add tsserver and setup with typescript.nvim instead of lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
+	-- add tsserver and setup with typescript.nvim instead of lspconfig
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"jose-elias-alvarez/typescript.nvim",
+			init = function()
+				require("lazyvim.util").lsp.on_attach(function(_, buffer)
           -- stylua: ignore
           vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
-    },
-    ---@class PluginLspOpts
-    opts = {
-      ---@type lspconfig.options
-      servers = {
-        -- tsserver will be automatically installed with mason and loaded with lspconfig
-        tsserver = {},
-      },
-      -- you can do any additional lsp server setup here
-      -- return true if you don't want this server to be setup with lspconfig
-      ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-      setup = {
-        -- example to setup with typescript.nvim
-        tsserver = function(_, opts)
-          require("typescript").setup({ server = opts })
-          return true
-        end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
-  },
+					vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+				end)
+			end,
+		},
+		---@class PluginLspOpts
+		opts = {
+			---@type lspconfig.options
+			servers = {
+				-- tsserver will be automatically installed with mason and loaded with lspconfig
+				tsserver = {},
+			},
+			-- you can do any additional lsp server setup here
+			-- return true if you don't want this server to be setup with lspconfig
+			---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+			setup = {
+				-- example to setup with typescript.nvim
+				tsserver = function(_, opts)
+					require("typescript").setup({ server = opts })
+					return true
+				end,
+				-- Specify * to use this function as a fallback for any server
+				-- ["*"] = function(server, opts) end,
+			},
+		},
+	},
 
-  -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
-  -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
-  { import = "lazyvim.plugins.extras.lang.typescript" },
+	-- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
+	-- treesitter, mason and typescript.nvim. So instead of the above, you can use:
+	{ import = "lazyvim.plugins.extras.lang.typescript" },
 
-  -- add more treesitter parsers
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "bash",
-        "html",
-        "javascript",
-        "json",
-        "lua",
-        "markdown",
-        "markdown_inline",
-        "python",
-        "query",
-        "regex",
-        "tsx",
-        "typescript",
-        "vim",
-        "yaml",
-      },
-    },
-  },
+	-- add more treesitter parsers
+	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = {
+			ensure_installed = {
+				"bash",
+				"html",
+				"javascript",
+				"json",
+				"lua",
+				"markdown",
+				"markdown_inline",
+				"python",
+				"query",
+				"regex",
+				"tsx",
+				"typescript",
+				"vim",
+				"yaml",
+			},
+		},
+	},
 
-  -- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
-  -- would overwrite `ensure_installed` with the new value.
-  -- If you'd rather extend the default config, use the code below instead:
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      -- add tsx and treesitter
-      vim.list_extend(opts.ensure_installed, {
-        "tsx",
-        "typescript",
-      })
-    end,
-  },
+	-- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
+	-- would overwrite `ensure_installed` with the new value.
+	-- If you'd rather extend the default config, use the code below instead:
+	{
+		"nvim-treesitter/nvim-treesitter",
+		opts = function(_, opts)
+			-- add tsx and treesitter
+			vim.list_extend(opts.ensure_installed, {
+				"tsx",
+				"typescript",
+			})
+		end,
+	},
 
-  -- the opts function can also be used to change the default opts:
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, "😄")
-    end,
-  },
+	-- the opts function can also be used to change the default opts:
+	{
+		"nvim-lualine/lualine.nvim",
+		event = "VeryLazy",
+		opts = function(_, opts)
+			table.insert(opts.sections.lualine_x, "😄")
+		end,
+	},
 
-  -- or you can return new options to override all the defaults
-  {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return {
-        --[[add your custom lualine config here]]
-      }
-    end,
-  },
+	-- or you can return new options to override all the defaults
+	{
+		"nvim-lualine/lualine.nvim",
+		event = "VeryLazy",
+		opts = function()
+			return {
+				--[[add your custom lualine config here]]
+			}
+		end,
+	},
 
-  -- use mini.starter instead of alpha
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
+	{
+		"catgoose/nvim-colorizer.lua",
+		event = "BufReadPre",
+		opts = {
+			require("colorizer").setup({
+				filetypes = { "*" }, -- Filetype options.  Accepts table like `user_default_options`
+				buftypes = {}, -- Buftype options.  Accepts table like `user_default_options`
+				-- Boolean | List of usercommands to enable.  See User commands section.
+				user_commands = true, -- Enable all or some usercommands
+				lazy_load = false, -- Lazily schedule buffer highlighting setup function
+				user_default_options = {
+					names = true, -- "Name" codes like Blue or red.  Added from `vim.api.nvim_get_color_map()`
+					names_opts = { -- options for mutating/filtering names.
+						lowercase = true, -- name:lower(), highlight `blue` and `red`
+						camelcase = true, -- name, highlight `Blue` and `Red`
+						uppercase = false, -- name:upper(), highlight `BLUE` and `RED`
+						strip_digits = false, -- ignore names with digits,
+						-- highlight `blue` and `red`, but not `blue3` and `red4`
+					},
+					-- Expects a table of color name to #RRGGBB value pairs.  # is optional
+					-- Example: { cool = "#107dac", ["notcool"] = "ee9240" }
+					-- Set to false to disable, for example when setting filetype options
+					names_custom = false, -- Custom names to be highlighted: table|function|false
+					RGB = true, -- #RGB hex codes
+					RGBA = true, -- #RGBA hex codes
+					RRGGBB = true, -- #RRGGBB hex codes
+					RRGGBBAA = false, -- #RRGGBBAA hex codes
+					AARRGGBB = false, -- 0xAARRGGBB hex codes
+					rgb_fn = false, -- CSS rgb() and rgba() functions
+					hsl_fn = false, -- CSS hsl() and hsla() functions
+					css = false, -- Enable all CSS *features*:
+					-- names, RGB, RGBA, RRGGBB, RRGGBBAA, AARRGGBB, rgb_fn, hsl_fn
+					css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+					-- Tailwind colors.  boolean|'normal'|'lsp'|'both'.  True sets to 'normal'
+					tailwind = false, -- Enable tailwind colors
+					tailwind_opts = { -- Options for highlighting tailwind names
+						update_names = false, -- When using tailwind = 'both', update tailwind names from LSP results.  See tailwind section
+					},
+					-- parsers can contain values used in `user_default_options`
+					sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
+					-- Highlighting mode.  'background'|'foreground'|'virtualtext'
+					mode = "background", -- Set the display mode
+					-- Virtualtext character to use
+					virtualtext = "■",
+					-- Display virtualtext inline with color.  boolean|'before'|'after'.  True sets to 'after'
+					virtualtext_inline = false,
+					-- Virtualtext highlight mode: 'background'|'foreground'
+					virtualtext_mode = "foreground",
+					-- update color values even if buffer is not focused
+					-- example use: cmp_menu, cmp_docs
+					always_update = false,
+					-- hooks to invert control of colorizer
+					hooks = {
+						-- called before line parsing.  Accepts boolean or function that returns boolean
+						-- see hooks section below
+						disable_line_highlight = false,
+					},
+				},
+			}),
+		},
+	},
 
-  -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
-  { import = "lazyvim.plugins.extras.lang.json" },
+	-- use mini.starter instead of alpha
+	{ import = "lazyvim.plugins.extras.ui.mini-starter" },
 
-  -- add any tools you want to have installed below
-  {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "stylua",
-        "shellcheck",
-        "shfmt",
-        "flake8",
-      },
-    },
-  },
+	-- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
+	{ import = "lazyvim.plugins.extras.lang.json" },
 
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
-    },
-  },
+	-- add any tools you want to have installed below
+	{
+		"williamboman/mason.nvim",
+		opts = {
+			ensure_installed = {
+				"stylua",
+				"shellcheck",
+				"shfmt",
+				"flake8",
+			},
+		},
+	},
+
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
+	},
 }
