@@ -17,7 +17,7 @@ export PATH="$PATH:/home/soup/bin/scripts"
 export TERMINAL=kitty
 #scripts
 wallpaper() {
-  ~/.zsh/scripts/walEngine.sh "$1"
+  ~/bin/scripts/walEngine.sh "$1"
   #kill -9 $PPID
 }
 
@@ -29,14 +29,30 @@ function osdev(){
   export TARGET=i686-elf
 }
 
+
 # SSH_AUTH_SOCK="$HOME/.ssh-agent.socket"
-# checks to see if SSH agent is running, if it is it'll process its process id number
+# checks to see if SSH agent is running, if not, start it 
+#
+SSH_ENV="$HOME/.ssh/agent_env"
 
-[ -z "$SSH_AGENT_PID" ] &&
-export SSH_AGENT_PID=$(ps ux | grep -w ssh-agent | grep -vwE 'defunct|grep' | grep -wm1 "$SSH_AUTH_SOCK" | awk '{print $2}')
+start_agent() {
+  echo "Starting new ssh-agent"
+  eval "$(ssh-agent -s)" >/dev/null
+  # save env for new shells
+  printf 'export SSH_AUTH_SOCK=%q\nexport SSH_AGENT_PID=%q\n' \
+         "$SSH_AUTH_SOCK" "$SSH_AGENT_PID" >"$SSH_ENV"
+  chmod 600 "$SSH_ENV"
+  # add your key(s)
+  ssh-add ~/.ssh/id_ed25519 2>/dev/null || ssh-add ~/.ssh/id_rsa 2>/dev/null
+}
 
-[ -n "$SSH_AGENT_PID" ] && [ -z "$SSH_AUTH_SOCK" ] &&
-export SSH_AUTH_SOCK=$( (ps "$SSH_AGENT_PID" | grep -w -- '-a' | sed "s/.* -a //;s/ .*//" | grep -- /) || (find /tmp/ssh-* -name \*$(($SSH_AGENT_PID-1)) -o -name \*$(($SSH_AGENT_PID-2)) -type s 2> /dev/null) )
-
-( [ -z "$SSH_AGENT_PID" ] || [ -z "$SSH_AUTH_SOCK" ] ) &&
-eval $(ssh-agent $([ -n "$SSH_AUTH_SOCK" ] && rm -f "$SSH_AUTH_SOCK" && echo -n "-a $SSH_AUTH_SOCK") -s) 1> /dev/null
+# If we have saved env, source it, then verify the agent is alive
+if [ -f "$SSH_ENV" ]; then
+  . "$SSH_ENV" >/dev/null
+  # If socket missing or agent not responding, start a new one
+  if ! [ -S "$SSH_AUTH_SOCK" ] || ! ssh-add -l >/dev/null 2>&1; then
+    start_agent
+  fi
+else
+  start_agent
+fi
