@@ -6,6 +6,7 @@
     "margin-right": 0,
     "height" : 16,
     "modules-left": [
+      "custom/shutdown",
       "hyprland/workspaces",
       "custom/pacman",
     ],
@@ -16,8 +17,8 @@
     "pulseaudio",
     "network",
     "temperature",
+    "cpu",
     "battery",
-    "custom/shutdown",
     "clock",
     ],
     "hyprland/window": {
@@ -49,7 +50,7 @@
 	"sort-by-number": true
     },
     "clock": {
-      "timezone": "America/Los_Angeles",
+      "timezone": "America/New_York",
       "format": "{:%I:%M %a}",
       "tooltip-format": "<span font='Mononoki Nerd Font Mono Bold 13'><big><tt>{calendar}</tt></big></span>",
       "calendar": {
@@ -62,18 +63,21 @@
         }
       }
       },
-    "cpu": {
-      "format": "  {usage}%",
-      "tooltip": false
-    },
     "memory": {
       "format": "{}%  "
     },
     "temperature": {
       "critical-threshold": 80,
       "format": "<span size='x-large' rise='-2500'>{icon}</span> {temperatureC}°C",
-      "format-icons": ["", "", ""]
+      "format-icons": ["", "", ""],
+      "tooltip": false
     },
+    "cpu": {
+      "format": "<span size='x-large' rise='-2500'></span> {usage}%",
+      "tooltip": true,
+      "on-click": "kitty --class nmwui htop"
+    },
+
     "battery": {
       "states": {
         "warning": 30,
@@ -126,4 +130,5 @@
 		  "on-click": "wlogout -b 2",
 		  "tooltip": false
 	  },
+    "output": ["eDP-1", "DP-4"]
 }

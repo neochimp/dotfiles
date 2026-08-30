@@ -38,6 +38,10 @@ return {
 		opts = function(_, opts)
 			table.insert(opts.sources, { name = "emoji" })
 		end,
+
+    init = function()
+      vim.g.cmp_disabled = false
+    end,
 	},
 
 	-- change some telescope options and a keymap to browse plugin files
@@ -242,15 +246,8 @@ return {
 
 	-- add any tools you want to have installed below
 	{
-		"williamboman/mason.nvim",
-		opts = {
-			ensure_installed = {
-				"stylua",
-				"shellcheck",
-				"shfmt",
-				"flake8",
-			},
-		},
+		"mason-org/mason.nvim",
+		opts = {},
 	},
 
 	{

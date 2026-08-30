@@ -2,3 +2,5 @@
 require("config.lazy")
 vim.opt.termguicolors = true
 vim.b.completion = false
+vim.diagnostic.enable()
+vim.g.autoformat = false

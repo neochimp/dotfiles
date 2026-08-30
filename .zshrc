@@ -7,6 +7,9 @@ fi
 
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 source $HOME/.zsh/aliases
+source $HOME/.zsh/scripts/command-chime/terminal_chime.zsh
+#nvm for nodejs
+#source /usr/share/nvm/init-nvm.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -56,3 +59,20 @@ if [ -f "$SSH_ENV" ]; then
 else
   start_agent
 fi
+
+# Optional: Increase history size
+HISTSIZE=1000000
+SAVEHIST=1000000
+HISTFILE="$HOME/.zsh_history"
+
+# Share history between all sessions and write to file immediately
+setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+
+# Optional: additional history options
+setopt HIST_IGNORE_DUPS   # Don't record an entry that was just recorded again
+setopt HIST_SAVE_NO_DUPS  # Older duplicates are omitted
+setopt HIST_REDUCE_BLANKS # Remove superfluous blanks before recording entry
+setopt HIST_FIND_NO_DUPS  # Do not display a line previously found
+

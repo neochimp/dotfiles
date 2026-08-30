@@ -46,7 +46,13 @@ button:hover {
   background: @mauve;
 }
 */
-
+#custom-shutdown:hover,
+#network:hover,
+#cpu:hover,
+#pulseaudio:hover {
+  background: @color4;
+  transition: 0.1s;
+}
 #workspaces {
   margin: 0px 5px 0px 0px;
   padding: 0px 5px 0px;
@@ -88,12 +94,21 @@ button:hover {
 #memory,
 #temperature,
 #network,
-#pulseaudio,
-#custom-shutdown{
+#pulseaudio{
   padding: 0 10px;
   margin-right: 10px;
   background: @background;
 }
+
+#custom-shutdown{
+  padding: 0 10px;
+  margin-right: 10px;
+  background-color: @color2;
+  border-color: @foreground;
+  border: solid;
+  border-width: 3px;
+}
+
 #clock {
   background-color: @color2;
   border-color: @foreground;
@@ -181,5 +196,6 @@ label:focus {
 #pulseaudio.muted {
   color: #7d7c7b;
 }
+
 
 
