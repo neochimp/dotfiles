@@ -1,6 +1,6 @@
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-#alias sleep="systemctl suspend"
+alias sleep="systemctl suspend"
 alias webserver="python3 -m http.server 8000"
 alias vpn="protonvpn"
 
