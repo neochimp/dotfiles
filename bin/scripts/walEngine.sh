@@ -62,6 +62,8 @@ if [ -f "$FILE" ]; then
   sleep 1
   hyprpaper &
   waybar -c ~/.config/waybar/config &
+  hyprctl reload &
+  qutebrowser ':config-source' &
   #sleep 0.5
   #waybar -c ~/.config/waybar/config2 &
   pywal-spicetify text &
