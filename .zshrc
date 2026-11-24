@@ -32,7 +32,6 @@ function osdev(){
   export TARGET=i686-elf
 }
 
-
 # SSH_AUTH_SOCK="$HOME/.ssh-agent.socket"
 # checks to see if SSH agent is running, if not, start it 
 #
@@ -76,12 +75,14 @@ setopt HIST_SAVE_NO_DUPS  # Older duplicates are omitted
 setopt HIST_REDUCE_BLANKS # Remove superfluous blanks before recording entry
 setopt HIST_FIND_NO_DUPS  # Do not display a line previously found
 
-#ros stuff
-source /opt/ros/lyrical/setup.zsh
-source ~/ros2_ws/install/setup.zsh
-alias build='cd ~/ros2_ws && colcon build'
-
 # Tiny
 tiny() {
     ~/.tiny/tiny/bin/tiny_linux.bin "$@"
 }
+
+mailbox() {
+    ~/dev/repos/mailbox/build/bin.exe "$@"
+}
+
+# quantum thing that broke my router
+export OPENSSL_CONF=$HOME/.config/openssl-classic.cnf
