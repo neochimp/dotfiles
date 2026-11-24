@@ -75,7 +75,7 @@
     "cpu": {
       "format": "<span size='x-large' rise='-2500'></span> {usage}%",
       "tooltip": true,
-      "on-click": "kitty --class nmwui htop"
+      "on-click": "kitty --class nmwui btop"
     },
 
     "battery": {
